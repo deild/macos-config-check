@@ -1,0 +1,77 @@
+on:
+  workflow_dispatch:
+    inputs:
+      levelOrVersion:
+        description: 'Possible level value: major, minor, patch, release, rc, beta, alpha or any valid semver version that is greater than current version'
+        required: true
+        default: 'release'
+
+name: Release
+
+jobs:
+  release:
+    runs-on: macos-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
+      ARCHIVE_NAME: ${{ github.event.repository.name }}-macos
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          git config user.name tolva
+          git config user.email 8457875+deild@users.noreply.github.com
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - uses: actions-rs/install@v0.1
+        with:
+          crate: cargo-release
+          version: latest
+          use-tool-cache: true
+      - uses: actions-rs/cargo@v1
+        with:
+          command: login
+          args: ${{ secrets.CRATES_TOKEN }}
+      - uses: actions-rs/cargo@v1
+        with:
+          command: release
+          args: --no-confirm ${{ github.event.inputs.levelOrVersion }}
+      - name: Get Previous tag
+        run: |
+          echo "latest=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+      - name: Publish Github Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEILD_TOKEN }}
+        with:
+          tag_name: ${{ env.latest }}
+          release_name: Release ${{ env.latest }}
+          draft: false
+          prerelease: false
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: -q --release
+      - name: Create binary archive and checksum
+        run: |
+          tar -czvf ${ARCHIVE_NAME}-${{ env.latest }}.tar.gz -C $(pwd)/target/release -- ${{ github.event.repository.name }}
+          shasum -a 256 ${ARCHIVE_NAME}-${{ env.latest }}.tar.gz > ${ARCHIVE_NAME}-${{ env.latest }}-sha256-checksum.txt
+          cat ${ARCHIVE_NAME}-${{ env.latest }}-sha256-checksum.txt
+      - name: Upload binary
+        id: upload-binary
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.ARCHIVE_NAME }}-${{ env.latest }}.tar.gz
+          asset_name: ${{ env.ARCHIVE_NAME }}-${{ env.latest }}.tar.gz
+          asset_content_type: application/tar+gzip
+      - name: Upload checksum
+        id: upload-sha256
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.ARCHIVE_NAME }}-${{ env.latest }}-sha256-checksum.txt
+          asset_name: ${{ env.ARCHIVE_NAME }}-${{ env.latest }}-sha256-checksum.txt
+          asset_content_type: text/plain

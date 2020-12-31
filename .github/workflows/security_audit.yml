@@ -1,0 +1,22 @@
+on:
+  push:
+    paths:
+      - '**/Cargo.toml'
+      - '**/Cargo.lock'
+
+name: Security audit
+
+jobs:
+  security_audit:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+#      - uses: actions-rs/install@v0.1
+#        with:
+#          crate: cargo-audit
+#          version: latest
+#          use-tool-cache: true
+      - run: cargo install --quiet --force cargo-audit
+      - uses: actions-rs/audit-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}

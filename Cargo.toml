@@ -1,0 +1,41 @@
+[package]
+name = "macos-config-check"
+version = "0.0.1-alpha.0"
+authors = ["deild <8457875+deild@users.noreply.github.com>"]
+description = "Checks your macOS machine against various hardened configuration settings"
+repository = "https://github.com/deild/macos-config-check"
+readme = "README.md"
+keywords = ["cli","macos","security"]
+categories = ["command-line-utilities", "security"]
+license = "MIT"
+edition = "2018"
+
+[dependencies]
+anyhow = "1.0.32"
+clap = { version = "3.0.0-beta.2", features = ["suggestions"] }
+colored = "2.0.0"
+log = { version = "0.4.11", features = ["std"] }
+open = "1.4.0"
+os_info = "3.0.1"
+phf = { version = "0.8.0", features = ["macros"] }
+regex = "1.4.2"
+simplelog = "0.9.0"
+urlencoding = "1.1.1"
+which = "4.0.2"
+
+[dev-dependencies]
+assert_cmd = "1.0.2"
+predicates = "1.0.5"
+
+[package.metadata.release]
+tag-message = "Release {{crate_name}} version {{version}}"
+pre-release-commit-message = "Release version {{version}}"
+pre-release-replacements = [
+    {file="README.md", search="macos-config-check [a-z0-9\\.-]+\\n", replace="macos-config-check {{version}}\n", prerelease=true} ,
+    {file ="tests/acceptance.rs", search="macos-config-check [a-z0-9\\.-]+\\n", replace="macos-config-check {{version}}\n", prerelease=true},
+]
+post-release-commit-message = "Start next development iteration {{next_version}}"
+post-release-replacements = [
+    {file="README.md", search="macos-config-check [a-z0-9\\.-]+\\n", replace="macos-config-check {{next_version}}\n", prerelease=true} ,
+    {file ="tests/acceptance.rs", search="macos-config-check [a-z0-9\\.-]+\\n", replace="macos-config-check {{next_version}}\n", prerelease=true},
+]
