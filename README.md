@@ -42,7 +42,7 @@ Each user may be configured differently, and so each should be audited.
 
 
 ```bash
-macos-config-check 0.0.1-alpha.0
+macos-config-check 0.0.1-alpha.1
 Checks your macOS machine against various hardened configuration settings
 
 USAGE:

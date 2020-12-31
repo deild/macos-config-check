@@ -6,7 +6,7 @@ static PROGRAM: &str = "macos-config-check";
 #[test]
 fn start_no_args() {
   //Given
-  let expected = "macos-config-check 0.0.1-alpha.0
+  let expected = "macos-config-check 0.0.1-alpha.1
 deild <8457875+deild@users.noreply.github.com>
 Checks your macOS machine against various hardened configuration settings
 
@@ -37,7 +37,7 @@ Download the latest copy of this tool at: https://github.com/deild/mac-os-check/
 #[test]
 fn start_with_args() {
   //Given
-  let expected = "macos-config-check 0.0.1-alpha.0
+  let expected = "macos-config-check 0.0.1-alpha.1
 deild <8457875+deild@users.noreply.github.com>
 Checks your macOS machine against various hardened configuration settings
 

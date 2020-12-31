@@ -1,6 +1,6 @@
 [package]
 name = "macos-config-check"
-version = "0.0.1-alpha.0"
+version = "0.0.1-alpha.1"
 authors = ["deild <8457875+deild@users.noreply.github.com>"]
 description = "Checks your macOS machine against various hardened configuration settings"
 repository = "https://github.com/deild/macos-config-check"
