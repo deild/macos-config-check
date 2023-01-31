@@ -16,7 +16,7 @@ impl PartialEq for CommandOutput {
 /// Execute a command and return the output on stdout and stderr if successful
 #[cfg(not(test))]
 pub fn exec_cmd(cmd: &str, args: &[&str]) -> Option<CommandOutput> {
-  internal_exec_cmd(&cmd, &args)
+  internal_exec_cmd(cmd, args)
 }
 
 #[cfg(test)]

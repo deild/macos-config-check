@@ -31,9 +31,9 @@ use crate::checks::model::{Confidence, Fix, Test, TestConfig, Type};
 pub const MCCOO1: TestConfig = TestConfig {
   description: "Homebrew is installed",
   reference: "",
-  confidence: Confidence::REQUIRED,
+  confidence: Confidence::Required,
   tests: Test {
-    test_type: Type::StatusMatch,
+    test_type: Type::Status,
     command: "command",
     command_args: &["-v", "brew" ],
     command_pass: "0",

@@ -30,9 +30,9 @@ use crate::checks::model::{Confidence, Fix, Test, TestConfig, Type};
 pub const MCCOO2: TestConfig = TestConfig {
   description:"Homebrew analytics are disabled",
   reference:"https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Analytics.md",
-  confidence: Confidence::REQUIRED,
+  confidence: Confidence::Required,
   tests: Test {
-    test_type: Type::ExactMatch,
+    test_type: Type::Exact,
     command: "brew",
     command_args: &["analytics"],
     command_pass: "Analytics are disabled.",
