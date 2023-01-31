@@ -66,9 +66,9 @@ pub fn exec_check(code_check: &str, dry_run: bool) {
     );
   } else {
     match test_config.tests.test_type {
-      Type::StatusMatch => status_match(code_check, test_config),
-      Type::ExactMatch => exact_match(code_check, test_config),
-      Type::RegexMatch => regexp_match(code_check, test_config),
+      Type::Status => status_match(code_check, test_config),
+      Type::Exact => exact_match(code_check, test_config),
+      Type::Regex => regexp_match(code_check, test_config),
     }
   }
 }
@@ -122,7 +122,7 @@ fn regexp_match(code_check: &str, test_config: TestConfig) {
     .output()
     .expect(FAILED_TEST)
     .stdout;
-  let set = RegexSetBuilder::new(&[test_config.tests.command_pass])
+  let set = RegexSetBuilder::new([test_config.tests.command_pass])
     .case_insensitive(true)
     .build()
     .unwrap();

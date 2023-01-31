@@ -1,43 +1,43 @@
 #[derive(Clone, Debug)]
 pub struct TestConfig<'a> {
-  /// is a human-readable string describing the configuration being checked; it should be a present-tense statement about a positive security configuration. (REQUIRED FIELD)
+  /// is a human-readable string describing the configuration being checked; it should be a present-tense statement about a positive security configuration. (Required FIELD)
   pub description: &'a str,
   /// provides a link to where a user can find more information about this configuration, or a citation of where this configuration was taken from. (OPTIONAL FIELD)
   pub reference: &'a str,
-  /// indicates subjective estimation of negative side-effects. valid values: "required", "recommended", "experimental". (REQUIRED FIELD)
+  /// indicates subjective estimation of negative side-effects. valid values: "required", "recommended", "experimental". (Required FIELD)
   pub confidence: Confidence,
-  /// is an ordered array of test objects. (REQUIRED FIELD, should not be empty)
+  /// is an ordered array of test objects. (Required FIELD, should not be empty)
   pub tests: Test<'a>,
-  /// is a JSON object that specifies how to remediate a broken configuration (REQUIRED FIELD, should not be empty)
+  /// is a JSON object that specifies how to remediate a broken configuration (Required FIELD, should not be empty)
   pub fix: Fix<'a>,
 }
 
 #[derive(Clone, Debug)]
 pub enum Confidence {
-  REQUIRED,
+  Required,
   //RECOMMENDED,
-  EXPERIMENTAL,
+  Experimental,
 }
 
 #[derive(Clone, Debug)]
 pub enum Type {
-  ExactMatch,
-  RegexMatch,
-  StatusMatch,
+  Exact,
+  Regex,
+  Status,
 }
 
 #[derive(Clone, Debug)]
 pub struct Test<'a> {
-  /// is "exact match" or "regex match" or "status match". (REQUIRED FIELD)
+  /// is "exact match" or "regex match" or "status match". (Required FIELD)
   pub test_type: Type,
-  /// is the command you want to verify the output of (REQUIRED FIELD)
+  /// is the command you want to verify the output of (Required FIELD)
   pub command: &'a str,
   pub command_args: &'a [&'a str],
   /// is the value that `command`'s output should match. If it matches, all tests pass and subsequent tests for this config are not evaluated. (OPTIONAL FIELD)
   pub command_pass: &'a str,
   ///is the value that `command`'s output should NOT match. If it matches, all tests fail and subsequent tests for this config are not evaluated. (OPTIONAL FIELD)
   pub command_fail: &'a str,
-  /// is "true" or "false" depending on whether the `command_pass` and/or `command_fail` values are case-sensitive. (REQUIRED FIELD)
+  /// is "true" or "false" depending on whether the `command_pass` and/or `command_fail` values are case-sensitive. (Required FIELD)
   pub case_sensitive: bool,
 }
 

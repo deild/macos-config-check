@@ -69,7 +69,7 @@ Download the latest copy of this tool at: https://github.com/deild/mac-os-check/
 #[test]
 fn version_no_args() {
   //Given
-  let expected = "macos-config-check 0.0.1-alpha.0\n";
+  let expected = "macos-config-check 0.0.1-alpha.1\n";
   //When
   let mut cmd = Command::cargo_bin(PROGRAM).unwrap();
   cmd.arg("-V");
