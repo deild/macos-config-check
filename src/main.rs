@@ -3,7 +3,7 @@ use clap::Clap;
 use log::*;
 
 use crate::cmd::{App, Cmd};
-use simplelog::{ConfigBuilder, TermLogger, TerminalMode};
+use simplelog::{format_description, ConfigBuilder, TermLogger, TerminalMode};
 
 mod checks;
 mod cmd;
@@ -13,9 +13,10 @@ fn init(log_level: LevelFilter) {
   let _ = TermLogger::init(
     log_level,
     ConfigBuilder::new()
-      .set_time_format("%Y-%m-%d %H:%M:%S".to_string())
+      .set_time_format_custom(format_description!("[hour]:[minute]:[second].[subsecond]"))
       .build(),
     TerminalMode::Mixed,
+    simplelog::ColorChoice::Always,
   );
 }
 
